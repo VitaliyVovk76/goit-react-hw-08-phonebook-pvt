@@ -1,0 +1,11 @@
+.filter {
+  padding: 10px 20px;
+}
+
+.input {
+  display: block;
+  width: 50%;
+  padding: 5px;
+  margin-right: auto;
+  margin-left: auto;
+}
