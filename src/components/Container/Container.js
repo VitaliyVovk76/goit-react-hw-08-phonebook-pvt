@@ -1,9 +1,16 @@
 import React from "react";
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 import PropTypes from "prop-types";
 import s from "./Container.module.css";
 
 function Container({ children }) {
-  return <div className={s.container}>{children}</div>;
+  return (
+    <div className={s.container}>
+      {children}
+      <ToastContainer />
+    </div>
+  );
 }
 
 Container.Propypes = {

@@ -54,11 +54,11 @@ const fetchCurrentUser = createAsyncThunk(
       console.log("Токена нет, уходим из fetchCurrentUser");
       return thunkAPI.rejectWithValue();
     }
+
     //сетим токен, чтоб был заголовок авторизации
     token.set(persistedToken);
     try {
       const { data } = await axios.get("/users/current");
-      console.log("data: ", data);
       return data;
     } catch (error) {
       // TODO: Добавить обработку ошибки error.message

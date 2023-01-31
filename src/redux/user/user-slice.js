@@ -6,6 +6,7 @@ const initialState = {
   user: { name: null, email: null },
   token: null,
   isLoggedIn: false,
+  isFetchingCurrentUser: false,
 };
 
 const contactsSlice = createSlice({
@@ -28,10 +29,16 @@ const contactsSlice = createSlice({
         state.token = null;
         state.isLoggedIn = false;
       })
+      .addCase(userOperations.fetchCurrentUser.pending, (state) => {
+        state.isFetchingCurrentUser = true;
+      })
       .addCase(userOperations.fetchCurrentUser.fulfilled, (state, action) => {
-        console.log(action.payload);
         state.user = action.payload;
         state.isLoggedIn = true;
+        state.isFetchingCurrentUser = false;
+      })
+      .addCase(userOperations.fetchCurrentUser.rejected, (state) => {
+        state.isFetchingCurrentUser = false;
       });
   },
 });

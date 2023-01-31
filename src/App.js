@@ -1,11 +1,13 @@
 import { Routes, Route } from "react-router-dom";
 import { useEffect, lazy } from "react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+
 import Container from "./components/Container";
 import AppBar from "./components/AppBar";
 import userOperations from "./redux/user/user-operations";
+import userSeletors from "./redux/user/user-selectors";
 import PrivateRoute from "./components/PrivateRoute";
-import RestrictedRoute from "./components/RestrictedRoute";
+import PublicRoute from "./components/PublicRoute";
 
 const HomePage = lazy(() => import("./pages/HomePage"));
 const ContactsPage = lazy(() => import("./pages/ContactsPage"));
@@ -14,40 +16,52 @@ const RegisterPage = lazy(() => import("./pages/RegisterPage"));
 
 function App() {
   const dispatch = useDispatch();
+  const isFetchingCurrentUser = useSelector(userSeletors.getIsFetchingCurrent);
+
   useEffect(() => {
     dispatch(userOperations.fetchCurrentUser());
   }, [dispatch]);
   return (
     <Container>
-      <Routes>
-        <Route element={<AppBar />}>
-          <Route path="/" element={<HomePage />} />
-          <Route
-            path="contacts"
-            element={
-              <PrivateRoute redirectTo="/login" component={<ContactsPage />} />
-            }
-          />
-          <Route
-            path="login"
-            element={
-              <RestrictedRoute
-                redirectTo="/contacts"
-                component={<LoginPage />}
-              />
-            }
-          />
-          <Route
-            path="register"
-            element={
-              <RestrictedRoute
-                redirectTo="/contacts"
-                component={<RegisterPage />}
-              />
-            }
-          />
-        </Route>
-      </Routes>
+      {!isFetchingCurrentUser && (
+        <Routes>
+          <Route element={<AppBar />}>
+            <Route
+              path="/"
+              element={<PublicRoute component={<HomePage />} />}
+            />
+            <Route
+              path="login"
+              element={
+                <PublicRoute
+                  redirectTo="/contacts"
+                  component={<LoginPage />}
+                  restricted
+                />
+              }
+            />
+            <Route
+              path="register"
+              element={
+                <PublicRoute
+                  redirectTo="/contacts"
+                  component={<RegisterPage />}
+                  restricted
+                />
+              }
+            />
+            <Route
+              path="contacts"
+              element={
+                <PrivateRoute
+                  redirectTo="/login"
+                  component={<ContactsPage />}
+                />
+              }
+            />
+          </Route>
+        </Routes>
+      )}
     </Container>
   );
 }

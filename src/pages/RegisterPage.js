@@ -1,5 +1,7 @@
 import { useState } from "react";
 import { useDispatch } from "react-redux";
+import { toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 // import { register } from "../redux/user/user-operations";
 import userOperations from "../redux/user/user-operations";
 
@@ -29,13 +31,21 @@ const RegisterPage = () => {
       case "password":
         return setPassword(value);
       default:
-        return;
+        throw new Error(`Тип поля name ${name} не обрабатывается`);
     }
   };
 
   const handleSubmit = (e) => {
     e.preventDefault();
+    if (email.trim() === "" || password.trim() === "" || name.trim() === "") {
+      toast(`Enter the form`);
+      return;
+    }
     dispatch(userOperations.register({ name, email, password }));
+    reset();
+  };
+
+  const reset = () => {
     setName("");
     setEmail("");
     setPassword("");
