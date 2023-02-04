@@ -23,6 +23,9 @@ const contactsSlice = createSlice({
         state.items = state.items.filter(
           (item) => item.id !== action.payload.id
         );
+      })
+      .addCase(contactsOperations.updateContact.fulfilled, (state, action) => {
+        console.log("Hello");
       });
   },
 });

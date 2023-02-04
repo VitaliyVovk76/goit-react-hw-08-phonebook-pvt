@@ -1,37 +1,33 @@
 import { useSelector, useDispatch } from "react-redux";
-import { useEffect } from "react";
-import contactsSelectors from "../redux/contacts/contacts-selectors";
+import { useEffect, useState } from "react";
 import contactsOperations from "../redux/contacts/contacts-operations";
 import Title from "../components/Title";
 import Button from "../components/Button";
 import Modal from "../components/Modal";
 import ContactForm from "../components/ContactForm";
 import ContactsList from "../components/ContactsList";
-import { toggleModal } from "../redux/modal/modal-slice";
-import { getModal } from "../redux/modal/modal-selectors";
+import Filter from "../components/Filter";
 
 const ContactsPage = () => {
-  const dispatch = useDispatch();
-  const showModall = useSelector(getModal);
-  //   const contacts = useSelector(contactsSelectors.getAllContacts);
-  useEffect(() => {
-    dispatch(contactsOperations.fetchAllContacts());
-  }, [dispatch]);
+  const [showModal, setShowModal] = useState(false);
+  const toggleModal = () => setShowModal((state) => !state);
 
   return (
     <>
-      <Title text="Contacts Page" type="first" />
+      <Title text="Phonebook" type="first" />
       <Button
         type="button"
-        onClick={() => dispatch(toggleModal(showModall))}
+        onClick={() => toggleModal()}
         text="Create contact"
         id="create"
       />
-      {showModall && (
-        <Modal>
-          <ContactForm />
+      {showModal && (
+        <Modal onClose={toggleModal}>
+          <ContactForm text="Add Contact" onClose={toggleModal} />
         </Modal>
       )}
+      <Title text="Find contacts by name" type="second" />
+      <Filter />
       <ContactsList />
     </>
   );

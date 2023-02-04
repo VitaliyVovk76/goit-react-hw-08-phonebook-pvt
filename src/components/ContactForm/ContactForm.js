@@ -4,25 +4,28 @@ import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import contactOperations from "../../redux/contacts/contacts-operations";
 import contactsSelectors from "../../redux/contacts/contacts-selectors";
-import { toggleModal } from "../../redux/modal/modal-slice";
-import { getModal } from "../../redux/modal/modal-selectors";
+
 import s from "./ContactForm.module.css";
 import Button from "../Button";
 
-export default function ContactForm() {
+export default function ContactForm({ text, onClose }) {
   const [name, setName] = useState("");
   const [number, setNumber] = useState("");
   const allContacts = useSelector(contactsSelectors.getAllContacts);
-  const showModal = useSelector(getModal);
 
   const dispatch = useDispatch();
 
   const handleChange = (event) => {
-    if (event.currentTarget.name === "name") {
-      setName(event.currentTarget.value);
-    }
-    if (event.currentTarget.name === "number") {
-      setNumber(event.currentTarget.value);
+    const { name, value } = event.currentTarget;
+    switch (name) {
+      case "name":
+        setName(value);
+        break;
+      case "number":
+        setNumber(value);
+        break;
+      default:
+        throw new Error(`Тип поля name ${name} не обрабатывается`);
     }
   };
 
@@ -30,7 +33,6 @@ export default function ContactForm() {
     event.preventDefault();
     if (checkName(name)) {
       toast(`${name} is alreadi in contacts`);
-      reset();
       return;
     }
 
@@ -39,8 +41,8 @@ export default function ContactForm() {
       return;
     }
     dispatch(contactOperations.addContact({ name, number }));
-    dispatch(toggleModal(showModal));
     reset();
+    onClose();
   };
 
   const reset = () => {
@@ -80,12 +82,7 @@ export default function ContactForm() {
           required
         />
       </label>
-      <Button
-        type="submit"
-        id="create"
-        text="Add contact"
-        onClick={hendleSubmit}
-      />
+      <Button type="submit" id="create" text={text} onClick={hendleSubmit} />
     </form>
   );
 }

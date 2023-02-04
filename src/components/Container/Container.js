@@ -8,7 +8,7 @@ function Container({ children }) {
   return (
     <div className={s.container}>
       {children}
-      <ToastContainer />
+      <ToastContainer autoClose={2000} />
     </div>
   );
 }

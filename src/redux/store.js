@@ -12,7 +12,7 @@ import {
 import storage from "redux-persist/lib/storage";
 import contactsReducer from "./contacts/contacts-slice";
 import userReducer from "./user/user-slice";
-import modalReducer from "./modal/modal-slice";
+import filterReducer from "./filter/filter-slice";
 
 const middleware = [
   ...getDefaultMiddleware({
@@ -33,7 +33,7 @@ export const store = configureStore({
     // user: userReducer,
     user: persistReducer(userPersistConfig, userReducer),
     contacts: contactsReducer,
-    modal: modalReducer,
+    filter: filterReducer,
   },
   middleware,
   devTools: process.env.NODE_ENV === "development",

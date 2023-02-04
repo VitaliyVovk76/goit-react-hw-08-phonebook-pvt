@@ -13,3 +13,7 @@
     composes:button;
     background-color: green;
 }
+
+.update{
+    composes:button;
+    background-color: yellow;}

@@ -29,7 +29,6 @@ const deleteContact = createAsyncThunk(
   async (contactId) => {
     try {
       const { data } = await axios.delete("/contacts/".concat(contactId));
-      console.log("data: ", data);
       return data;
     } catch {
       //обработать ошибк
@@ -37,6 +36,23 @@ const deleteContact = createAsyncThunk(
   }
 );
 
-const operations = { fetchAllContacts, addContact, deleteContact };
+const updateContact = createAsyncThunk(
+  "contacts/updateContact",
+  async (contactId) => {
+    try {
+      const { data } = await axios.patch("/contacts/".concat(contactId));
+      return data;
+    } catch {
+      //обработать ошибк
+    }
+  }
+);
+
+const operations = {
+  fetchAllContacts,
+  addContact,
+  deleteContact,
+  updateContact,
+};
 
 export default operations;
