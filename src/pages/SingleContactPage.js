@@ -17,8 +17,8 @@ const SingleContactPage = () => {
   const contacts = useSelector(contactsSelectonrs.getAllContacts);
   const searchContact = contacts.find((contact) => contact.id === contactId);
   const [showModal, setShowModal] = useState(false);
+
   const toggleModal = () => setShowModal((state) => !state);
-  //   const { name, number, id } = searchContact;
 
   const onDeleteContact = (contactId) => {
     dispatch(contactsOperations.deleteContact(contactId));

@@ -4,7 +4,6 @@ import { useSelector, useDispatch } from "react-redux";
 import contactsOperations from "../../redux/contacts/contacts-operations";
 import s from "./ContactsList.module.css";
 import Title from "../Title";
-import Button from "../Button";
 
 import contactsSelectors from "../../redux/contacts/contacts-selectors";
 
@@ -14,9 +13,6 @@ const ContactList = () => {
   const location = useLocation();
 
   const dispatch = useDispatch();
-
-  const onDeleteContact = (contactId) =>
-    dispatch(contactsOperations.deleteContact(contactId));
 
   //   useEffect(() => {
   //     if (contactStatus === "idle") {
