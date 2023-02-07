@@ -3,6 +3,8 @@ import selectorsFilter from "../filter/filter-selectors";
 
 const getAllContacts = (state) => state.contacts.items;
 
+// const getContactById = createSelector([]);
+
 export const getVisibleContacts = createSelector(
   [getAllContacts, selectorsFilter.getFilter],
   (contacts, filter) => {

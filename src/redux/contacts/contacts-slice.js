@@ -25,7 +25,7 @@ const contactsSlice = createSlice({
         );
       })
       .addCase(contactsOperations.updateContact.fulfilled, (state, action) => {
-        console.log("Hello");
+        console.log(action.payload);
       });
   },
 });

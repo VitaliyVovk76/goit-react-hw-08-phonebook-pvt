@@ -1,6 +1,4 @@
-import { useSelector, useDispatch } from "react-redux";
-import { useEffect, useState } from "react";
-import contactsOperations from "../redux/contacts/contacts-operations";
+import { useState } from "react";
 import Title from "../components/Title";
 import Button from "../components/Button";
 import Modal from "../components/Modal";

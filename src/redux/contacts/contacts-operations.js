@@ -38,9 +38,13 @@ const deleteContact = createAsyncThunk(
 
 const updateContact = createAsyncThunk(
   "contacts/updateContact",
-  async (contactId) => {
+  async (contact) => {
+    const { id, name, number } = contact;
     try {
-      const { data } = await axios.patch("/contacts/".concat(contactId));
+      const { data } = await axios.patch("/contacts/".concat(id), {
+        name,
+        number,
+      });
       return data;
     } catch {
       //обработать ошибк
