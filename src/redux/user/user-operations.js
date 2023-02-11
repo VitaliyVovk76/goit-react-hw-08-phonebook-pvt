@@ -12,17 +12,20 @@ const token = {
   },
 };
 
-const register = createAsyncThunk("user/register", async (credentials) => {
-  try {
-    const { data } = await axios.post("/users/signup", credentials);
-    token.set(data.token);
-    return data;
-  } catch (error) {
-    // TODO: Добавить обработку ошибки error.message
+const register = createAsyncThunk(
+  "user/register",
+  async (credentials, thunkAPI) => {
+    try {
+      const { data } = await axios.post("/users/signup", credentials);
+      token.set(data.token);
+      return data;
+    } catch (error) {
+      return thunkAPI.rejectWithValue();
+    }
   }
-});
+);
 
-const logIn = createAsyncThunk("user/login", async (credentials) => {
+const logIn = createAsyncThunk("user/login", async (credentials, thunkAPI) => {
   try {
     //  const response = .....
     //return response.data
@@ -30,17 +33,17 @@ const logIn = createAsyncThunk("user/login", async (credentials) => {
     token.set(data.token);
     return data;
   } catch (error) {
-    // TODO: Добавить обработку ошибки error.message
+    return thunkAPI.rejectWithValue();
   }
 });
 
-const logOut = createAsyncThunk("/users/logout", async () => {
+const logOut = createAsyncThunk("/users/logout", async (_, thunkAPI) => {
   try {
     const { data } = await axios.post("/users/logout");
     token.unset();
     return data;
   } catch (error) {
-    // TODO: Добавить обработку ошибки error.message
+    return thunkAPI.rejectWithValue();
   }
 });
 
@@ -61,7 +64,7 @@ const fetchCurrentUser = createAsyncThunk(
       const { data } = await axios.get("/users/current");
       return data;
     } catch (error) {
-      // TODO: Добавить обработку ошибки error.message
+      return thunkAPI.rejectWithValue();
     }
   }
 );

@@ -4,21 +4,19 @@ import { useSelector, useDispatch } from "react-redux";
 import contactsOperations from "../../redux/contacts/contacts-operations";
 import s from "./ContactsList.module.css";
 import Title from "../Title";
+import Loader from "../Loader";
+import LoaderContainer from "../LoaderContainer/LoaderContainer";
 
 import contactsSelectors from "../../redux/contacts/contacts-selectors";
 
 const ContactList = () => {
   const contacts = useSelector(contactsSelectors.getVisibleContacts);
-  const contactStatus = useSelector((state) => state.contacts.status);
+  const contactsStatus = useSelector(contactsSelectors.getIsLoading);
+
   const location = useLocation();
 
   const dispatch = useDispatch();
 
-  //   useEffect(() => {
-  //     if (contactStatus === "idle") {
-  //       dispatch(fetchContacts());
-  //     }
-  //   }, [dispatch, contactStatus]);
   useEffect(() => {
     dispatch(contactsOperations.fetchAllContacts());
   }, [dispatch]);
@@ -26,6 +24,8 @@ const ContactList = () => {
   return (
     <>
       <Title text="My contacts" type="second" />
+      <LoaderContainer>{contactsStatus === true && <Loader />}</LoaderContainer>
+
       {contacts.length === 0 && <p>No contacts...</p>}
       <div className={s.contactsWrapper}>
         <ul className={s.contactList}>
@@ -34,12 +34,6 @@ const ContactList = () => {
               <p>
                 {name}: {number}
               </p>
-              {/* <Button
-                text="Delete"
-                id="delete"
-                type="button"
-                onClick={() => onDeleteContact(id)}
-              /> */}
               <Link
                 to={`/contacts/${id}`}
                 state={{ from: location, contactId: id }}

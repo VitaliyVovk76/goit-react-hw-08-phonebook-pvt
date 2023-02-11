@@ -5,40 +5,43 @@ axios.defaults.baseURL = "https://connections-api.herokuapp.com";
 
 const fetchAllContacts = createAsyncThunk(
   "contacts/fetchAllContacts",
-  async () => {
+  async (_, thunkAPI) => {
     try {
       const { data } = await axios.get("/contacts");
       return data;
-    } catch {
-      //обработать ошибук
+    } catch (error) {
+      return thunkAPI.rejectWithValue(error.message);
     }
   }
 );
 
-const addContact = createAsyncThunk("contacts/addContact", async (contact) => {
-  try {
-    const { data } = await axios.post("/contacts", contact);
-    return data;
-  } catch {
-    //обработать ошибку
+const addContact = createAsyncThunk(
+  "contacts/addContact",
+  async (contact, thunkAPI) => {
+    try {
+      const { data } = await axios.post("/contacts", contact);
+      return data;
+    } catch (error) {
+      return thunkAPI.rejectWithValue(error.message);
+    }
   }
-});
+);
 
 const deleteContact = createAsyncThunk(
   "contacts/deleteContact",
-  async (contactId) => {
+  async (contactId, thunkAPI) => {
     try {
       const { data } = await axios.delete("/contacts/".concat(contactId));
       return data;
-    } catch {
-      //обработать ошибк
+    } catch (error) {
+      return thunkAPI.rejectWithValue(error.message);
     }
   }
 );
 
 const updateContact = createAsyncThunk(
   "contacts/updateContact",
-  async (contact) => {
+  async (contact, thunkAPI) => {
     const { id, name, number } = contact;
     try {
       const { data } = await axios.patch("/contacts/".concat(id), {
@@ -46,8 +49,8 @@ const updateContact = createAsyncThunk(
         number,
       });
       return data;
-    } catch {
-      //обработать ошибк
+    } catch (error) {
+      return thunkAPI.rejectWithValue(error.message);
     }
   }
 );

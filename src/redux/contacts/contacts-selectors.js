@@ -3,7 +3,7 @@ import selectorsFilter from "../filter/filter-selectors";
 
 const getAllContacts = (state) => state.contacts.items;
 
-// const getContactById = createSelector([]);
+const getIsLoading = (state) => state.contacts.isLoading;
 
 export const getVisibleContacts = createSelector(
   [getAllContacts, selectorsFilter.getFilter],
@@ -15,6 +15,6 @@ export const getVisibleContacts = createSelector(
   }
 );
 
-const selectors = { getAllContacts, getVisibleContacts };
+const selectors = { getAllContacts, getVisibleContacts, getIsLoading };
 
 export default selectors;
